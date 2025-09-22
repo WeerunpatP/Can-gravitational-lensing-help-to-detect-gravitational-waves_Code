@@ -1,0 +1,5 @@
+Python code use for simulating critical and caustic curve of gravitational lensing from binary system in 4 condition
+-rippid rotation conserved energy binary -> cariticle_fixorbit_rippid
+-normal rotation conserved energy binary -> cariticle_fixorbit_normalRotation
+-rippid rotation with energy loss binary -> 
+-normal rotation with energy loss binary -> cariticle_fixorbit_rippid_loss
