@@ -1,0 +1,5 @@
+Python code use in simulating the light curve of binary system in 4 condintion
+-rippid rotation conserved energy binary -> fixVer_noloss_rapid.py
+-normal rotation conserved energy binary -> fixVer_normalRotation.py
+-rippid rotation with energy loss binary -> fixVer_loss_rapid.py
+-normal rotation with energy loss binary -> fixVer_noloss.py
