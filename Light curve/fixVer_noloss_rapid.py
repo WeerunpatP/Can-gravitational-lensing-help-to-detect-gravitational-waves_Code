@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from scipy.optimize import fsolve
+from scipy import stats
+import pandas as pd
 
 def binary_lens_equation_system(vars, w, z1_c, z2_c):
     # Lens masses normalized
@@ -32,20 +34,30 @@ def binary_lens_equation_system(vars, w, z1_c, z2_c):
 
     return [equation_complex.real, equation_complex.imag]
 
+def find_outliar(data, threshold=3):
+    z_scores = np.abs(stats.zscore(data))
+    outliers = []
+    Index = []
+    for i, z in enumerate(z_scores):
+        if z > threshold:
+            outliers.append(data[i])
+            Index.append(i)
+    return pd.DataFrame({'Outliers': outliers}, index=Index)
+
 # move only object
 # Constants
-G = (6.6743 * (10**-11)) * (1.9891 * (10**30)) * (1 / ((1.495978707 * 10**11)**3)) * ((24 * 3600)**2)  # (AU^3)*(day^-2)*(solar mass^-1)
-l = math.sqrt(0.5)  # solar mass*AU^2/day
+G = (6.6743 * (10**-11)) * (1.9891 * (10**30)) * (1 / ((1.495978707 * 10**11)**3)) * ((365.35 * 24 * 3600)**2)  # (AU^3)*(year^-2)*(solar mass^-1)
+l = math.sqrt(0.5)  # solar mass*AU^2/year
 e = 0  # Eccentricity
-c = (299792458) * (1 / (1.495978707 * 10**11)) * (24 * 3600)  # AU/day
+c = (299792458) * (1 / (1.495978707 * 10**11)) * (365.25 * 24 * 3600)  # AU/year
 ly = 9.4605284 * (10**15)  # m
 AU = 149597871*(10**3) #m
 H0 = 69.8 * (10**3) / ((10**6) * 3.26 * ly)  # m/s/m
 Ds = (2.537*(10**6)*ly)/AU #AU, andromeda galaxy
 Dl = (5*ly)/AU
 M_solar = 1.9891*(10**30) #kg
-M = 36 # solar mass
-m = 29 # solar mass
+M = 3.5 # solar mass
+m = 1.4 # solar mass
 q = m/M
 print("q: ",q, " solar mass")
 M_A = M+m
@@ -83,13 +95,12 @@ r0 = l**2 / (G * M * m**2)  # Initial radius unit AU
 print("a: ", a, " AU")
 rc = 2 * G * (M + m) / (c**2)  # Schwarzschild radius unit AU
 E = ((e**2) - 1) * mu * ((-k)**2) * (1 / (2 * (l**2)))
-T = tB  # year # change to day
+T = tB  # year
 print("T/tE: ", T/tE, " year")
 
 # Parameters for lens
 # at mid point is 0 tE
-time = np.arange(0,4*tE, (tE*0.01)+eps)
-u0 = 206265/Dls 
+time = np.arange(0,30*tE, (tE*0.01)+eps)
 omega = (2*math.pi)/tB
 
 r_list = []
@@ -110,15 +121,6 @@ theta_values = omega_list*time
 i_unitv = np.cos(theta_values)
 j_unitv = np.sin(theta_values)
 
-# #no rotation
-# r_valuse = a / (1 + e * np.cos(0)) # This updates r_valuse based on that omega and time
-
-# r1 = M / (M + m) * r_valuse
-# r2 = -1 * (m / (M + m)) * r_valuse
-# theta_values = 0
-# i_unitv = np.cos(theta_values)
-# j_unitv = np.sin(theta_values)
-
 # Using the calculated values for X1, Y1, X2, Y2
 X1=(r1*i_unitv) #AU
 Y1=(r1*j_unitv) #AU
@@ -128,12 +130,8 @@ Y2=(r2*j_unitv) #AU
 z1 = (X1 + Y1*1j)*(1/Re)
 z2 = (X2 + Y2*1j)*(1/Re)
 
-#Relative line
-Impact_parameter = u0  #acrscond
-c_plot = (Impact_parameter/206265)*Dl
-
 # Set to find distance between star (r)
-source_i_position = -2
+source_i_position = -4
 
 #plot light curve----------------------------------------------------------------
 
@@ -202,16 +200,17 @@ for i in range(len(w_array)):
 
     A_total = sum(A_list)
     A_total = abs(A_total)
+    # if A_total < 1:
+    #     A_total = 1
+
     A_data.append(A_total)
     #print(f"\nFound {len(unique_solutions)} unique solutions. Whan source at {w_array[i]}")
     print(A_total)
 
-    # # Verify solutions by plugging back into the equation (optional)
-    # print("\nVerification (residuals should be close to zero):")
-    # for i, sol in enumerate(unique_solutions):
-    #     x_sol, y_sol = sol.real, sol.imag
-    #     residual_real, residual_imag = binary_lens_equation_system((x_sol, y_sol), w_c, z1_c, z2_c)
-    #     #print(f"Solution {i+1} residual: Real={residual_real:.2e}, Imag={residual_imag:.2e}")
+# pd_Adata = pd.DataFrame(A_data, columns='magnification')
+# pd_Adata['time'] = time
+# Peak = find_outliar(A_data, 0.5)
+# print(Peak)
 
 # Plotting
 plt.figure(figsize=(10, 6))

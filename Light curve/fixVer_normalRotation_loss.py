@@ -76,7 +76,7 @@ mu = (M * m) / (M + m)  # solar mass
 k = G * M * m  # N(AU)^2
 r0 = l**2 / (G * M * m**2)  # Initial radius unit AU
 print("a: ", a, " AU")
-rc = 2 * G * (M + m) / (c**2)  # Schwarzschild radius unit AU
+rs = 2 * G * (M + m) / (c**2)  # Schwarzschild radius unit AU
 E = ((e**2) - 1) * mu * ((-k)**2) * (1 / (2 * (l**2)))
 T = math.sqrt((a**3))  # year # change to day
 print("T/tE: ", T/tE, " year")
@@ -90,9 +90,12 @@ omega = (2*math.pi)/T
 r_list = []
 omega_list = []
 
-#conserved energy orbit simulation
+#a_t = separation after loss energy
+a_t = a
+#loss energy orbit simulation
 for t in time:
-    r_valuse = a / (1 + e * np.cos(omega*t)) # This updates r_valuse based on that omega and time
+    a_t = (a**4 - ((32/5)*((m*M)/(m+M))*(rs**3)*c*(t-0)))*(1/4)
+    r_valuse = a_t / (1 + e * np.cos(omega*t)) # This updates r_valuse based on that omega and time
     r_list.append(r_valuse)
     omega_list.append(omega)
 

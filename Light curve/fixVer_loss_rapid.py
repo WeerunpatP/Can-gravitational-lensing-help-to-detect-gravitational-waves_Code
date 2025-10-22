@@ -98,7 +98,7 @@ omega_list = []
 
 #a_t = separation after loss energy
 a_t = a
-#conserved energy
+#loss energy orbit simulation
 for t in time:
     a_t = (a**4 - ((32/5)*((m*M)/(m+M))*(rs**3)*c*(t-0)))*(1/4)
     r_valuse = a_t / (1 + e * np.cos(omega*t)) # This updates r_valuse based on that omega and time
