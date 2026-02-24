@@ -3,3 +3,7 @@ Python code use for simulating critical and caustic curve of gravitational lensi
 -normal rotation conserved energy binary -> cariticle_fixorbit_normalRotation
 -rippid rotation with energy loss binary -> 
 -normal rotation with energy loss binary -> cariticle_fixorbit_rippid_loss
+
+Update (24/2/2569)
+- asyn program use to find critical and causitic curve of gravitational lensing -> cariticle_fixorbit_rippid_loss_asyn
+- Sepcificly for report (simulated for specific time not time span like it normally did) -> cariticle_fixorbit_rippid_loss_forreport
