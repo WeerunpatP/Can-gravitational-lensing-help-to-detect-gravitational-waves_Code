@@ -4,5 +4,5 @@ Python code use in simulating the light curve of binary system in 4 condintion
 -rippid rotation with energy loss binary -> fixVer_loss_rapid.py
 -normal rotation with energy loss binary -> fixVer_normalRotation_loss.py
 
-Update
--fixVer_loss_rapid_muti_asyn_withinput -> input mass, impact parameter and condiiton of binary system (loss energy or not)
+Update (24/2/2569)
+-input mass, impact parameter and condiiton of binary system (loss energy or not) -> fixVer_loss_rapid_muti_asyn_withinput
