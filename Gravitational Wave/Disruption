@@ -1,1 +1,2 @@
 Program use to simulated starin signal from gravitational wave event
+- binary system with loss energy and rippid rotation -> starin_signal_rippid.py
