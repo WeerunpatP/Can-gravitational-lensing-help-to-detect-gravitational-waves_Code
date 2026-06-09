@@ -94,7 +94,7 @@ rs = 2 * G * (M + m) / (c**2)  # Schwarzschild radius unit AU
 # Parameters for lens
 scale = 40
 chrip_time = a**4/((32/5)*((m*M)/(m+M))*(rs**3)*c)
-print(f"chrip at {chrip_time:,}")
+print(f"chrip at {chrip_time}")
 far_from_chirp = float(input("Enter time before chirp in power of ten (year): "))
 far_from_chirp = 10**(far_from_chirp)
 start_time = chrip_time/far_from_chirp - (scale/2)
@@ -221,19 +221,19 @@ async def megnification_find(w_array):
         for sol in all_solutions:
             is_unique = True
             for unique_sol in unique_solutions:
-                if abs(sol - unique_sol) < tolerance:
+                if abs(sol - unique_sol[1]) < tolerance:
                     is_unique = False
                     break
             if is_unique:
-                unique_solutions.append(sol)
+                unique_solutions.append([all_solutions.index(sol), sol])
 
         A_list = []
         #calculated magnification
         #Path a
         if len(unique_solutions) > 0:
-            for i, sol in enumerate(unique_solutions):
+            for sol in unique_solutions:
                     #print(f"Solution {i+1}: z = {sol:.6f}")
-                    dwz = (E1/((sol-z1[i])**2))+(E2/((sol-z2[i])**2))
+                    dwz = (E1/((sol[1]-z1[sol[0]])**2))+(E2/((sol[1]-z2[sol[0]])**2))
                     J = 1 - abs(dwz**2)
                     A = abs(1/J)
                     A_list.append(A)
@@ -322,7 +322,7 @@ data = {
 }
 df = pd.DataFrame(data)
 
-df.to_csv('D:\\blackhole_program\\graphmag\\csv\\simu_data\\' + f'{M}{m}_{lable}_{far_from_chirp}_magdata.csv')
+df.to_csv('C:\\Users\\user\\OneDrive\\เอกสาร\\Program\\Python\\GLGWproject\\csv\\' + f'{M}{m}_{lable}_{far_from_chirp}_{b_source_a}_{b_source_b}_{b_source_c}_magdata.csv')
 
 # from playsound import playsound
 # from gtts import gTTS
